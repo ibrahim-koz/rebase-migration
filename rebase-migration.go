@@ -86,15 +86,15 @@ func renameMigrations(migrationPath string, migrationGroups []MigrationGroup) {
 				continue
 			}
 			upOldName := fmt.Sprintf("%s/%06d_%s.up.sql", migrationPath, group.Version, baseName)
-			upNewName := fmt.Sprintf("%s/%06d_%s.up.sql", migrationPath, highestVersionNumber, baseName)
 			downOldName := fmt.Sprintf("%s/%06d_%s.down.sql", migrationPath, group.Version, baseName)
-			downNewName := fmt.Sprintf("%s/%06d_%s.down.sql", migrationPath, highestVersionNumber, baseName)
 
 			if _, err := os.Stat(upOldName); err != nil {
 				continue
 			}
 
 			highestVersionNumber++
+			upNewName := fmt.Sprintf("%s/%06d_%s.up.sql", migrationPath, highestVersionNumber, baseName)
+			downNewName := fmt.Sprintf("%s/%06d_%s.down.sql", migrationPath, highestVersionNumber, baseName)
 
 			// Rename .up.sql file
 			if err := os.Rename(upOldName, upNewName); err != nil {
