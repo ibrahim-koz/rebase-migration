@@ -91,6 +91,10 @@ func renameMigrations(migrationPath string, migrationGroups []MigrationGroup) {
 			downOldName := fmt.Sprintf("%s/%06d_%s.down.sql", migrationPath, group.Version, baseName)
 			downNewName := fmt.Sprintf("%s/%06d_%s.down.sql", migrationPath, highestVersionNumber, baseName)
 
+			if _, err := os.Stat(upOldName); err != nil {
+				continue
+			}
+
 			// Rename .up.sql file
 			if err := os.Rename(upOldName, upNewName); err != nil {
 				log.Fatalf("Failed to rename %s to %s: %s", upOldName, upNewName, err)
